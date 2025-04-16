@@ -4,6 +4,11 @@ const compression = require('compression')
 const logger = require('morgan')
 const cors = require('cors')
 
+// Load environment variables from .env.local in development
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: '.env.local' })
+}
+
 // create express web server app
 const app = express()
 
@@ -13,7 +18,12 @@ if(process.env.NODE_ENV !== 'production')
 
 app.use(express.json({limit: '10mb'}))
 app.use(express.urlencoded({ extended: false }))
-app.use(cors())
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}))
 app.use(compression())
 
 // Define URL for our compute server
@@ -27,7 +37,7 @@ const argIndex = process.argv.indexOf('--computeUrl')
 if (argIndex > -1)
   process.env.RHINO_COMPUTE_URL = process.argv[argIndex + 1]
 if (!process.env.RHINO_COMPUTE_URL)
-  process.env.RHINO_COMPUTE_URL = 'http://localhost:5000/' // default if nothing else exists
+  process.env.RHINO_COMPUTE_URL = 'http://localhost:6500/' // default if nothing else exists
 
 console.log('RHINO_COMPUTE_URL: ' + process.env.RHINO_COMPUTE_URL)
 
