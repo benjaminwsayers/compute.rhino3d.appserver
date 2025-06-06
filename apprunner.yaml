@@ -16,3 +16,9 @@ run:
       value: production
     - name: PORT
       value: 3000
+    - name: RHINO_COMPUTE_URL
+      value: http://localhost:6500/
+    - name: RHINO_COMPUTE_KEY
+      value: test-key
+    - name: ALLOWED_ORIGINS
+      value: "*"
