@@ -53,6 +53,15 @@ app.use('/view', require('./routes/template'))
 app.use('/version', require('./routes/version'))
 app.use('/', require('./routes/index'))
 
+// Health check endpoint for AWS
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    version: require('../package.json').version
+  });
+});
+
 // ref: https://github.com/expressjs/express/issues/3589
 // remove line when express@^4.17
 express.static.mime.types["wasm"] = "application/wasm";
