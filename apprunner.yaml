@@ -3,22 +3,22 @@ runtime: nodejs18
 build:
   commands:
     build:
-      - echo "Installing dependencies"
-      - npm install
+      - echo "Installing dependencies..."
+      - npm ci --production
+      - echo "Build completed"
 run:
-  runtime-version: 18
-  command: npm start
+  runtime-version: auto
+  command: node src/bin/www
   network:
     port: 3000
-    env: PORT
+    env:
+      PORT: 3000
   env:
-    - name: NODE_ENV
-      value: production
-    - name: PORT
-      value: 3000
     - name: RHINO_COMPUTE_URL
-      value: http://localhost:6500/
+      value: "http://your-windows-ec2-instance:6500"
     - name: RHINO_COMPUTE_KEY
-      value: test-key
+      value: "your-rhino-compute-auth-key"
     - name: ALLOWED_ORIGINS
       value: "*"
+    - name: NODE_ENV
+      value: "production"
