@@ -7,12 +7,10 @@ build:
       - npm ci --production
       - echo "Build completed"
 run:
-  runtime-version: auto
   command: node src/bin/www
   network:
     port: 3000
-    env:
-      PORT: 3000
+    env: PORT
   env:
     - name: RHINO_COMPUTE_URL
       value: "http://your-windows-ec2-instance:6500"
